@@ -161,6 +161,9 @@ def evaluate(model, val_loader, batch_transforms, amp=False):
             out = model(images)
             loss = cross_entropy(out, targets)
         # Compute metric
+        print(out.argmax(dim=1))
+        print(targets)
+        print(out.argmax(dim=1) == targets)
         correct += (out.argmax(dim=1) == targets).sum().item()
 
         val_loss += loss.item()

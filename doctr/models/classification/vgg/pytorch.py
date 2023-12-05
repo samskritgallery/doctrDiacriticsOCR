@@ -21,7 +21,7 @@ default_cfgs: Dict[str, Dict[str, Any]] = {
         "mean": (0.694, 0.695, 0.693),
         "std": (0.299, 0.296, 0.301),
         "input_shape": (3, 32, 32),
-        "classes": list(VOCABS["french"]),
+        "classes": list(VOCABS["sanskrit_diacritics_training"]),
         "url": "https://doctr-static.mindee.com/models?id=v0.4.1/vgg16_bn_r-d108c19c.pt&src=0",
     },
 }

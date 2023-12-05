@@ -20,6 +20,7 @@ VOCABS: Dict[str, str] = {
     "hindi_digits": "٠١٢٣٤٥٦٧٨٩",
     "arabic_diacritics": "ًٌٍَُِّْ",
     "arabic_punctuation": "؟؛«»—",
+    "sanskrit_transliterated_refined": "ÑñĀāēĪīōŚśŪū˜ḌḍḤḥḶḷḸḹḺḻṁṂṃṄṅṆḷṚṛṜṝṢṣṬṭ",  # ।॥ Removing dhanda and double dhanda since font rendition is not proper.
 }
 
 VOCABS["latin"] = VOCABS["digits"] + VOCABS["ascii_letters"] + VOCABS["punctuation"]
@@ -45,3 +46,12 @@ VOCABS["vietnamese"] = (
     + "ÁÀẢẠÃĂẮẰẲẴẶÂẤẦẨẪẬÉÈẺẼẸÊẾỀỂỄỆÓÒỎÕỌÔỐỒỔỘỖƠỚỜỞỢỠÚÙỦŨỤƯỨỪỬỮỰIÍÌỈĨỊÝỲỶỸỴ"
 )
 VOCABS["hebrew"] = VOCABS["english"] + "אבגדהוזחטיכלמנסעפצקרשת" + "₪"
+VOCABS["sanskrit_diacritics_training"] = (
+    VOCABS["english"] + VOCABS["sanskrit_transliterated_refined"]
+)
+
+# VOCABS["sanskrit_diacritics_training"] = "AEKPHRFB"
+
+
+print(len(VOCABS["sanskrit_diacritics_training"]))
+# print(len(VOCABS["french"]))

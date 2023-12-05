@@ -52,6 +52,14 @@ def synthesize_text_img(
     text_pos = (int(round((img_size[1] - text_w) / 2)), int(round((img_size[0] - text_h) / 2)))
     # Draw the text
     d.text(text_pos, text, font=font, fill=text_color)
+    img.save(
+        "/home/navaneeth/Z_RENAISSANCE/diacriticsOCR/doctr/output/"
+        + text
+        + "_"
+        + font_family.split(".")[0].split("/")[-1]
+        + ".png"
+    )
+    print("image type -Inside base.py", type(img))
     return img
 
 
