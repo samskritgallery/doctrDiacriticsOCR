@@ -56,7 +56,7 @@ def synthesize_text_img(
     # Draw the text
     d.text(text_pos, text, font=font, fill=text_color)
     img.save(
-        "/home/navaneeth/Z_RENAISSANCE/diacriticsOCR/doctrDiacriticsOCR/output/"
+        "/content/doctrDiacriticsOCR/output/"
         + text
         + "_"
         + font_family.split(".")[0].split("/")[-1]

@@ -36,6 +36,7 @@ from doctr.models import classification, login_to_hub, push_to_hf_hub
 from doctr.models.utils import export_model_to_onnx
 from utils import plot_recorder, plot_samples
 
+import shutil
 
 def record_lr(
     model: torch.nn.Module,
@@ -161,9 +162,9 @@ def evaluate(model, val_loader, batch_transforms, amp=False):
             out = model(images)
             loss = cross_entropy(out, targets)
         # Compute metric
-        print(out.argmax(dim=1))
-        print(targets)
-        print(out.argmax(dim=1) == targets)
+        #print(out.argmax(dim=1))
+        #print(targets)
+        #print(out.argmax(dim=1) == targets)
         correct += (out.argmax(dim=1) == targets).sum().item()
 
         val_loss += loss.item()
@@ -336,12 +337,29 @@ def main(args):
     for epoch in range(args.epochs):
         fit_one_epoch(model, train_loader, batch_transforms, optimizer, scheduler)
 
+        
         # Validation loop at the end of each epoch
         val_loss, acc = evaluate(model, val_loader, batch_transforms)
+
+        with open("epoch_"+str(epoch)+".txt", 'w') as file:
+          # Write content to the file
+          file.write(current_time)
+          file.write("\n")
+          file.write(str(val_loss))
+          file.write("\n")
+          file.write(str(acc))
+          file.write("\n")
+
+
+        shutil.copy2("./epoch_"+str(epoch)+".txt", "/content/gdrive/MyDrive/diacriticsOCR/epoch_"+str(epoch)+".txt")
+
         if val_loss < min_loss:
             print(f"Validation loss decreased {min_loss:.6} --> {val_loss:.6}: saving state...")
-            torch.save(model.state_dict(), f"./{exp_name}.pt")
+            torch.save(model.state_dict(), f"./{exp_name}_{epoch}.pt")
+            # Copy the file to the destination directory while preserving metadata
+            shutil.copy2("./"+exp_name+"_"+str(epoch)+".pt", "/content/gdrive/MyDrive/diacriticsOCR/"+exp_name+"_"+str(epoch)+".pt")
             min_loss = val_loss
+
         print(f"Epoch {epoch + 1}/{args.epochs} - Validation loss: {val_loss:.6} (Acc: {acc:.2%})")
         # W&B
         if args.wb:
