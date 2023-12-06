@@ -49,11 +49,14 @@ def synthesize_text_img(
     d = ImageDraw.Draw(img)
 
     # Offset so that the text is centered
-    text_pos = (int(round((img_size[1] - text_w) / 2)), int(round((img_size[0] - text_h) / 2)))
+    text_pos = (
+        int(round((img_size[1] - text_w) / 2)),
+        int(round((img_size[0] - text_h) / 2)),
+    )
     # Draw the text
     d.text(text_pos, text, font=font, fill=text_color)
     img.save(
-        "/home/navaneeth/Z_RENAISSANCE/diacriticsOCR/doctr/output/"
+        "/home/navaneeth/Z_RENAISSANCE/diacriticsOCR/doctrDiacriticsOCR/output/"
         + text
         + "_"
         + font_family.split(".")[0].split("/")[-1]
@@ -104,7 +107,9 @@ class _CharacterGenerator(AbstractDataset):
             pil_img, target = self._data[idx]
         else:
             target = index % len(self.vocab)
-            pil_img = synthesize_text_img(self.vocab[target], font_family=random.choice(self.font_family))
+            pil_img = synthesize_text_img(
+                self.vocab[target], font_family=random.choice(self.font_family)
+            )
         img = tensor_from_pil(pil_img)
 
         return img, target
@@ -138,9 +143,17 @@ class _WordGenerator(AbstractDataset):
 
         self._data: List[Image.Image] = []
         if cache_samples:
-            _words = [self._generate_string(*self.wordlen_range) for _ in range(num_samples)]
+            _words = [
+                self._generate_string(*self.wordlen_range) for _ in range(num_samples)
+            ]
             self._data = [
-                (synthesize_text_img(text, font_family=random.choice(self.font_family)), text) for text in _words
+                (
+                    synthesize_text_img(
+                        text, font_family=random.choice(self.font_family)
+                    ),
+                    text,
+                )
+                for text in _words
             ]
 
     def _generate_string(self, min_chars: int, max_chars: int) -> str:
@@ -156,7 +169,9 @@ class _WordGenerator(AbstractDataset):
             pil_img, target = self._data[index]
         else:
             target = self._generate_string(*self.wordlen_range)
-            pil_img = synthesize_text_img(target, font_family=random.choice(self.font_family))
+            pil_img = synthesize_text_img(
+                target, font_family=random.choice(self.font_family)
+            )
         img = tensor_from_pil(pil_img)
 
         return img, target
